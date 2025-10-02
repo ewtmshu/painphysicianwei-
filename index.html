@@ -1,35 +1,54 @@
-<!doctype html>
-<html lang="zh-Hant">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>案例分享 | PainPhysicianWei</title>
-<meta name="description" content="疼痛醫學｜復健科｜再生醫學 — 醫師衛教與診所資訊"/>
+<!doctype html><html lang="zh-Hant"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>首頁 | PainPhysicianWei</title>
 <link rel="stylesheet" href="/styles.css"/>
-</head>
-<body>
-<header>
-  <div class="container" style="display:flex;align-items:center;justify-content:space-between;">
-    <a href="/" class="btn" style="border:none;padding:0;font-weight:600;">PainPhysicianWei</a>
-    <nav>
-      <a href="/doctor.html">醫師介紹</a>
-      <a href="/visit.html">就診資訊</a>
-      <a href="/cases/">案例分享</a>
-      <a href="/evidence/">健康實證</a>
-      <a href="/social.html">社群連結</a>
-    </nav>
-  </div>
-</header>
+<meta name="description" content="疼痛醫學｜復健科｜再生醫學 — 醫師衛教與診所資訊"/>
+</head><body>
+<header><div class="container" style="display:flex;align-items:center;justify-content:space-between;">
+  <a href="/index.html" class="btn" style="border:none;padding:0;font-weight:600;">PainPhysicianWei</a>
+  <nav>
+    <a href="/doctor/">醫師介紹</a>
+    <a href="/visit/">就診資訊</a>
+    <a href="/cases/">案例分享</a>
+    <a href="/evidence/">健康實證</a>
+    <a href="/social/">社群連結</a>
+  </nav>
+</div></header>
+
 <main class="container">
+  <!-- Hero -->
+  <section class="card" style="border:1px solid #ddd;background:#fafafa">
+    <h1 style="margin:0 0 6px 0;font-size:28px;">疼痛醫學・復健科</h1>
+    <p class="small" style="margin-top:0">以實證為本的診療與衛教，提供注重復原品質的治療選擇。</p>
+    <p style="margin-top:12px">
+      <a class="btn" href="/visit/">就診資訊</a>
+      <a class="btn" href="/evidence/">健康實證</a>
+    </p>
+  </section>
 
-<h1>案例分享</h1>
-<div class="card"><strong>案例 A</strong><p class="small">暫存摘要…</p></div>
-<div class="card"><strong>案例 B</strong><p class="small">暫存摘要…</p></div>
-<p class="small">＊此頁先為靜態內容，待 WPGraphQL 接通後改為動態。</p>
+  <!-- Quick nav cards -->
+  <section class="grid grid-2">
+    <a class="card" href="/doctor/">
+      <strong>醫師介紹</strong>
+      <p class="small">學經歷、專長與治療理念。</p>
+    </a>
+    <a class="card" href="/visit/">
+      <strong>就診資訊</strong>
+      <p class="small">門診時段、地址與交通停車。</p>
+    </a>
+    <a class="card" href="/evidence/">
+      <strong>健康實證</strong>
+      <p class="small">PRP、BMAC 等再生醫學重點與研究整理。</p>
+    </a>
+    <a class="card" href="/cases/">
+      <strong>案例分享</strong>
+      <p class="small">臨床經驗與照護心得（去識別化處理）。</p>
+    </a>
+  </section>
 
+  <!-- Note -->
+  <p class="small">＊此為先行上線版本；之後會連接 WordPress 後台自動更新文章。</p>
 </main>
-<footer>
-  <div class="container small">© 案例分享 PainPhysicianWei — 先行上線版本</div>
-</footer>
-</body>
-</html>
+
+<footer><div class="container small">© PainPhysicianWei</div></footer>
+</body></html>
