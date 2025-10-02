@@ -1,5 +1,5 @@
 # PainPhysicianWei — Headless 前台（起始版）
-
+update
 - Next.js 14 + Tailwind（靜態輸出），已備好頁面：
   - `/`、`/doctor`、`/visit`、`/evidence`、`/cases`、`/social`
 - WPGraphQL 接點環境變數：`NEXT_PUBLIC_WP_GRAPHQL_URL`
