@@ -5,13 +5,52 @@
 <header><div class="container" style="display:flex;align-items:center;justify-content:space-between;">
   <a href="/index.html" class="btn" style="border:none;padding:0;font-weight:600;">PainPhysicianWei</a>
   <nav>
-    <a href="/doctor.html">醫師介紹</a><a href="/visit.html">就診資訊</a>
-    <a href="/cases/">案例分享</a><a href="/evidence/">健康實證</a><a href="/social.html">社群連結</a>
-  </nav></div></header>
+    <a href="/doctor/">醫師介紹</a>
+    <a href="/visit/">就診資訊</a>
+    <a href="/cases/">案例分享</a>
+    <a href="/evidence/">健康實證</a>
+    <a href="/social/">社群連結</a>
+  </nav>
+</div></header>
+
 <main class="container">
   <h1>案例分享</h1>
-  <div class="card"><strong>案例 A</strong><p class="small">暫存摘要…</p></div>
-  <div class="card"><strong>案例 B</strong><p class="small">暫存摘要…</p></div>
+  <p class="small">去識別化之臨床經驗與照護心得。</p>
+
+  <div id="wp-cases-list" class="grid grid-2" style="margin-top:16px"></div>
 </main>
+
 <footer><div class="container small">© PainPhysicianWei</div></footer>
+
+<script>
+(async function loadWP(categorySlug, mountId){
+  const api = 'https://cms.painphysicianwei.tw/wp-json/wp/v2';
+  try {
+    const catRes = await fetch(`${api}/categories?slug=${categorySlug}`);
+    const catArr = await catRes.json();
+    const cat = catArr && catArr[0];
+    if(!cat){ document.getElementById(mountId).innerHTML = '<p class="small">找不到分類（檢查 slug 是否為 cases）</p>'; return; }
+
+    const res = await fetch(`${api}/posts?categories=${cat.id}&_embed&per_page=12&status=publish`);
+    const posts = await res.json();
+
+    const el = document.getElementById(mountId);
+    el.innerHTML = (posts || []).map(p => {
+      const img = p._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
+      const title = p.title?.rendered || '';
+      const excerpt = (p.excerpt?.rendered || '').replace(/<[^>]+>/g,'').slice(0,120);
+      const url = p.link;
+      return `
+        <a class="card" href="${url}" target="_blank" rel="noreferrer">
+          ${img ? `<img src="${img}" alt="" style="width:100%;border-radius:12px;margin-bottom:8px;object-fit:cover;max-height:180px"/>` : ''}
+          <h3>${title}</h3>
+          <p class="small">${excerpt || '（內文摘要）'}</p>
+        </a>
+      `;
+    }).join('') || '<p class="small">尚無文章，請到 WP 後台新增並設為公開。</p>';
+  } catch (e) {
+    document.getElementById(mountId).innerHTML = '<p class="small">讀取失敗，稍後再試。</p>';
+  }
+})('cases','wp-cases-list');
+</script>
 </body></html>
