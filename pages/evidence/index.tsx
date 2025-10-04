@@ -33,7 +33,7 @@ export default function Evidence({ items }: { items: Node[] }) {
 export async function getStaticProps() {
   try {
     type ListByCategoryResp = { posts: { nodes: Node[] } };
-    const data = await client.request<ListByCategoryResp>(queries.listByCategory, {
+    const data = (await client.request(queries.listByCategory, { cat: "evidence", first: 12 })) as any;
       cat: "evidence",
       first: 12,
     });
