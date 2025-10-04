@@ -16,10 +16,6 @@ export default function Post({ post }: any) {
   );
 }
 
-export async function getStaticPaths() {
-  // 先不預取，改用阻塞式生成
-  return { paths: [], fallback: "blocking" };
-}
 export async function getStaticProps({ params }: any) {
   try {
     type PostBySlugResp = {
