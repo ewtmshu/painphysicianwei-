@@ -32,11 +32,7 @@ export default function Cases({ items }: { items: Node[] }) {
 
 export async function getStaticProps() {
   try {
-    type ListByCategoryResp = { posts: { nodes: Node[] } };
     const data = (await client.request(queries.listByCategory, { cat: "cases", first: 12 })) as any;
-      cat: "cases",
-      first: 12,
-    });
     return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
   } catch {
     return { props: { items: [] }, revalidate: 60 };
