@@ -17,13 +17,20 @@ export default function Post({ post }: any) {
 }
 
 export async function getStaticPaths() {
-  // 先不預先產生：第一次有人查看某篇時由伺服器端生成，之後快取（ISR）
+  // 先不預取，用阻塞式生成
   return { paths: [], fallback: "blocking" };
 }
 
 export async function getStaticProps({ params }: any) {
   try {
-    type PostBySlugResp = { post: { title: string; content: string; featuredImage?: { node?: { sourceUrl?: string } } } | null };
+    // ⬇⬇ 這兩行是關鍵：宣告回傳型別，並把 client.request 指定成這個型別
+    type PostBySlugResp = {
+      post: {
+        title: string;
+        content: string;
+        featuredImage?: { node?: { sourceUrl?: string } };
+      } | null;
+    };
     const data = await client.request<PostBySlugResp>(queries.postBySlug, { slug: params.slug });
 
     if (!data.post) return { notFound: true };
