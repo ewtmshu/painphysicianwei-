@@ -16,17 +16,14 @@ export default function Post({ post }: any) {
   );
 }
 
+export async function getStaticPaths() {
+  return { paths: [], fallback: "blocking" };
+}
+
 export async function getStaticProps({ params }: any) {
   try {
-    type PostBySlugResp = {
-      post: {
-        title: string;
-        content: string;
-        featuredImage?: { node?: { sourceUrl?: string } };
-      } | null;
-    };
     const data = (await client.request(queries.postBySlug, { slug: params.slug })) as any;
-    if (!data.post) return { notFound: true };
+    if (!data?.post) return { notFound: true };
     return { props: { post: data.post }, revalidate: 60 };
   } catch {
     return { notFound: true };
