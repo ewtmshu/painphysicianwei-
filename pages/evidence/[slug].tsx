@@ -25,7 +25,7 @@ export async function getStaticProps({ params }: any) {
         featuredImage?: { node?: { sourceUrl?: string } };
       } | null;
     };
-    const data = await client.request<PostBySlugResp>(queries.postBySlug, { slug: params.slug });
+    const data = (await client.request(queries.postBySlug, { slug: params.slug })) as any;
     if (!data.post) return { notFound: true };
     return { props: { post: data.post }, revalidate: 60 };
   } catch {
