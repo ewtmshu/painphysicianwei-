@@ -2,7 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { client, queries } from "@/lib/wp";
 
-type Node = { slug: string; title: string; excerpt: string; featuredImage?: { node?: { sourceUrl: string } } };
+type Node = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  featuredImage?: { node?: { sourceUrl?: string } };
+};
+
 export default function Evidence({ items }: { items: Node[] }) {
   return (
     <main className="container">
@@ -23,7 +29,16 @@ export default function Evidence({ items }: { items: Node[] }) {
     </main>
   );
 }
+
 export async function getStaticProps() {
-  const data = await client.request(queries.listByCategory, { cat: "evidence", first: 12 });
-  return { props: { items: data.posts.nodes }, revalidate: 60 };
+  try {
+    type ListByCategoryResp = { posts: { nodes: Node[] } };
+    const data = await client.request<ListByCategoryResp>(queries.listByCategory, {
+      cat: "evidence",
+      first: 12,
+    });
+    return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
+  } catch {
+    return { props: { items: [] }, revalidate: 60 };
+  }
 }
