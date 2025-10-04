@@ -6,7 +6,7 @@ type Node = {
   slug: string;
   title: string;
   excerpt: string;
-  featuredImage?: { node?: { sourceUrl: string } };
+  featuredImage?: { node?: { sourceUrl?: string } };
 };
 
 export default function Cases({ items }: { items: Node[] }) {
@@ -31,6 +31,14 @@ export default function Cases({ items }: { items: Node[] }) {
 }
 
 export async function getStaticProps() {
-  const data = await client.request(queries.listByCategory, { cat: "cases", first: 12 });
-  return { props: { items: data.posts.nodes }, revalidate: 60 };
+  try {
+    type ListByCategoryResp = { posts: { nodes: Node[] } };
+    const data = await client.request<ListByCategoryResp>(queries.listByCategory, {
+      cat: "cases",
+      first: 12,
+    });
+    return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
+  } catch {
+    return { props: { items: [] }, revalidate: 60 };
+  }
 }
