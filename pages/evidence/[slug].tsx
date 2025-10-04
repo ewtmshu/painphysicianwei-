@@ -22,8 +22,17 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps({ params }: any) {
   try {
-    const data = await client.request(queries.postBySlug, { slug: params.slug });
+    type PostBySlugResp = {
+      post: {
+        title: string;
+        content: string;
+        featuredImage?: { node?: { sourceUrl?: string } };
+      } | null;
+    };
+    const data = await client.request<PostBySlugResp>(queries.postBySlug, { slug: params.slug });
     if (!data.post) return { notFound: true };
     return { props: { post: data.post }, revalidate: 60 };
-  } catch { return { notFound: true }; }
+  } catch {
+    return { notFound: true };
+  }
 }
