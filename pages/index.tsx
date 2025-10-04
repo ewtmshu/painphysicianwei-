@@ -1,3 +1,7 @@
+import ClinicLanding from "@/components/ClinicLanding"; // 你畫布那個元件移到 components
+export default function Home() {
+  return <ClinicLanding />;
+}
 
 import Link from "next/link";
 
