@@ -17,23 +17,13 @@ export default function Post({ post }: any) {
 }
 
 export async function getStaticPaths() {
-  // 先不預取，用阻塞式生成
   return { paths: [], fallback: "blocking" };
 }
 
 export async function getStaticProps({ params }: any) {
   try {
-    // ⬇⬇ 這兩行是關鍵：宣告回傳型別，並把 client.request 指定成這個型別
-    type PostBySlugResp = {
-      post: {
-        title: string;
-        content: string;
-        featuredImage?: { node?: { sourceUrl?: string } };
-      } | null;
-    };
     const data = (await client.request(queries.postBySlug, { slug: params.slug })) as any;
-
-    if (!data.post) return { notFound: true };
+    if (!data?.post) return { notFound: true };
     return { props: { post: data.post }, revalidate: 60 };
   } catch {
     return { notFound: true };
