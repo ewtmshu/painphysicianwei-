@@ -18,3 +18,7 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+// next.config.js
+module.exports = {
+  images: { domains: ["cms.painphysicianwei.tw", "i0.wp.com"] },
+};
