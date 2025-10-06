@@ -34,7 +34,7 @@ export default function Evidence({ items }: { items: Node[] }) {
 export async function getStaticProps() {
   try {
     const data = (await client.request(queries.listByCategory, {
-      slug: ["evidence"], // ← 用分類 slug
+      slug: ["evidence"],
       first: 12,
     })) as any;
     return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
