@@ -30,13 +30,9 @@ export default function Evidence({ items }: { items: Node[] }) {
     </main>
   );
 }
-
 export async function getStaticProps() {
   try {
-    const data = (await client.request(queries.listByCategory, {
-      slug: ["evidence"],
-      first: 12,
-    })) as any;
+    const data = await client.request(queries.listByCategory, { cat: "健康實證", first: 12 });
     return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
   } catch {
     return { props: { items: [] }, revalidate: 60 };
