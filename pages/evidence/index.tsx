@@ -36,7 +36,6 @@ export async function getStaticProps() {
     const catRes = await client.request(queries.categoryIdBySlug, { slug: ["evidence"] });
     const id = catRes?.categories?.nodes?.[0]?.databaseId;
     if (!id) return { props: { items: [] }, revalidate: 60 };
-
     const data = await client.request(queries.listByCategoryId, { ids: [id], first: 12 });
     return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
   } catch {
