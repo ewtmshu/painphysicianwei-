@@ -13,6 +13,7 @@ export default function Evidence({ items }: { items: Node[] }) {
   return (
     <main className="container">
       <h1 className="text-2xl md:text-3xl font-semibold my-4">健康實證</h1>
+      <p style={{opacity:.6}}>count: {items?.length ?? 0}</p>
       <div className="grid md:grid-cols-2 gap-4">
         {items.map((p) => (
           <Link key={p.slug} href={`/evidence/${p.slug}`} className="card">
