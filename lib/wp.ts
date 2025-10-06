@@ -1,7 +1,10 @@
 // lib/wp.ts
 import { GraphQLClient, gql } from "graphql-request";
 
-const endpoint = process.env.NEXT_PUBLIC_WP_GRAPHQL_URL!;
+// 沒吃到環境變數時，用這個保底網址
+const DEFAULT_ENDPOINT = "https://cms.painphysicianwei.tw/graphql";
+const endpoint = process.env.NEXT_PUBLIC_WP_GRAPHQL_URL || DEFAULT_ENDPOINT;
+
 export const client = new GraphQLClient(endpoint);
 
 export const queries = {
