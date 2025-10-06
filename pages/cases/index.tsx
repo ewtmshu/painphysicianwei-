@@ -30,11 +30,11 @@ export default function Cases({ items }: { items: Node[] }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
-    const data = await client.request(queries.listByCategory, { cat: "案例分享", first: 12 });
-    return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
+    const data = await client.request(queries.listByCategory, { cat: "cases", first: 12 });
+    return { props: { items: data?.posts?.nodes ?? [] } };
   } catch {
-    return { props: { items: [] }, revalidate: 60 };
+    return { props: { items: [] } };
   }
 }
