@@ -4,9 +4,18 @@ const endpoint = process.env.NEXT_PUBLIC_WP_GRAPHQL_URL!;
 export const client = new GraphQLClient(endpoint);
 
 export const queries = {
-  listByCategory: gql`
-    query ListByCategory($cat: String!, $first: Int! = 12) {
-      posts(where: { categoryName: $cat }, first: $first) {
+  // 先用 slug 把分類 ID 查出來
+  categoryIdBySlug: gql`
+    query CatIdBySlug($slug: [String!]!) {
+      categories(where: { slug: $slug }) {
+        nodes { databaseId name slug }
+      }
+    }`,
+
+  // 再用分類 ID 抓文章
+  listByCategoryId: gql`
+    query ListByCategoryId($ids: [ID], $first: Int! = 12) {
+      posts(where: { categoryIn: $ids }, first: $first) {
         nodes {
           slug
           title
@@ -16,6 +25,8 @@ export const queries = {
         }
       }
     }`,
+
+  // 單篇
   postBySlug: gql`
     query PostBySlug($slug: ID!) {
       post(id: $slug, idType: SLUG) {
@@ -24,5 +35,5 @@ export const queries = {
         date
         featuredImage { node { sourceUrl } }
       }
-    }`
+    }`,
 };
