@@ -1,44 +1,16 @@
+// pages/index.tsx
 import Link from "next/link";
-import Image from "next/image";
-import { client, queries } from "@/lib/wp";
 
-type Node = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  featuredImage?: { node?: { sourceUrl?: string } };
-};
-
-export default function Evidence({ items }: { items: Node[] }) {
+export default function Home() {
   return (
-    <main className="container">
-      <h1 className="text-2xl md:text-3xl font-semibold my-4">健康實證</h1>
-      <div className="grid md:grid-cols-2 gap-4">
-        {items.map((p) => (
-          <Link key={p.slug} href={`/evidence/${p.slug}`} className="card">
-            {p.featuredImage?.node?.sourceUrl && (
-              <div className="relative w-full h-44 mb-2 overflow-hidden rounded-lg">
-                <Image src={p.featuredImage.node.sourceUrl} alt="" fill className="object-cover" />
-              </div>
-            )}
-            <h3 className="font-medium" dangerouslySetInnerHTML={{ __html: p.title }} />
-            <p className="text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: p.excerpt }} />
-          </Link>
-        ))}
-      </div>
+    <main className="container py-8">
+      <h1 className="text-3xl font-semibold mb-6">許哲維醫師</h1>
+      <ul className="grid gap-4 md:grid-cols-2">
+        <li><Link className="card" href="/evidence">健康實證 →</Link></li>
+        <li><Link className="card" href="/cases">案例分享 →</Link></li>
+        <li><Link className="card" href="/doctor">醫師簡介 →</Link></li>
+        <li><Link className="card" href="/visit">就醫指南 →</Link></li>
+      </ul>
     </main>
   );
-}
-
-export async function getStaticProps() {
-  try {
-    const catRes = await client.request(queries.categoryIdBySlug, { slug: ["evidence"] });
-    const id = catRes?.categories?.nodes?.[0]?.databaseId;
-    if (!id) return { props: { items: [] }, revalidate: 60 };
-
-    const data = await client.request(queries.listByCategoryId, { ids: [id], first: 12 });
-    return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
-  } catch {
-    return { props: { items: [] }, revalidate: 60 };
-  }
 }
