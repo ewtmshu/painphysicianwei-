@@ -33,7 +33,7 @@ export default function Cases({ items }: { items: Node[] }) {
 export async function getStaticProps() {
   try {
     const data = (await client.request(queries.listByCategory, {
-      slug: ["cases"], // ← 用分類 slug
+      slug: ["cases"],
       first: 12,
     })) as any;
     return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
