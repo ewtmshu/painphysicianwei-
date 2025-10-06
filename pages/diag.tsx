@@ -1,28 +1,22 @@
+// pages/diag.tsx
+import { client, queries } from "@/lib/wp";
+
 export async function getServerSideProps() {
-  const url = process.env.NEXT_PUBLIC_WP_GRAPHQL_URL!;
   try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: `
-          query($slug:[String]!) {
-            posts(where:{ taxQuery:{ taxArray:[{taxonomy:CATEGORY, terms:$slug, field:SLUG}] }}, first:3){
-              nodes{ slug title }
-            }
-          }`,
-        variables: { slug: ["evidence"] }
-      })
-    });
-    const json = await res.json();
-    return { props: { ok: true, url, json } };
-  } catch (e:any) {
-    return { props: { ok: false, url, error: String(e) } };
+    const data = await client.request(queries.listByCategory, { cat: "evidence", first: 3 });
+    return {
+      props: {
+        ok: true,
+        url: process.env.NEXT_PUBLIC_WP_GRAPHQL_URL,
+        count: data?.posts?.nodes?.length ?? 0,
+        sample: data?.posts?.nodes?.map(p => ({ slug: p.slug, title: p.title })) ?? [],
+      },
+    };
+  } catch (e: any) {
+    return { props: { ok: false, error: String(e) } };
   }
 }
 
-export default function Diag(p:any){
-  return <pre style={{whiteSpace:'pre-wrap', padding:16}}>
-    {JSON.stringify(p, null, 2)}
-  </pre>;
+export default function Page(props: any) {
+  return <pre>{JSON.stringify(props, null, 2)}</pre>;
 }
