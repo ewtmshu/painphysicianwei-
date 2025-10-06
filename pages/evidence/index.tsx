@@ -30,11 +30,11 @@ export default function Evidence({ items }: { items: Node[] }) {
     </main>
   );
 }
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
-    const data = await client.request(queries.listByCategory, { cat: "健康實證", first: 12 });
-    return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
-  } catch {
-    return { props: { items: [] }, revalidate: 60 };
+    const data = await client.request(queries.listByCategory, { cat: "evidence", first: 12 });
+    return { props: { items: data?.posts?.nodes ?? [] } };
+  } catch (e) {
+    return { props: { items: [] } };
   }
 }
