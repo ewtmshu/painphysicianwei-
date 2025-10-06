@@ -32,10 +32,7 @@ export default function Cases({ items }: { items: Node[] }) {
 
 export async function getStaticProps() {
   try {
-    const data = (await client.request(queries.listByCategory, {
-      slug: ["cases"],
-      first: 12,
-    })) as any;
+    const data = await client.request(queries.listByCategory, { cat: "案例分享", first: 12 });
     return { props: { items: data?.posts?.nodes ?? [] }, revalidate: 60 };
   } catch {
     return { props: { items: [] }, revalidate: 60 };
