@@ -1,4 +1,11 @@
 /* styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+body { @apply bg-slate-50 text-slate-900 antialiased; }
+.container { @apply mx-auto px-4 sm:px-6 lg:px-8; }
 img{max-width:100%; height:auto; display:block;}
 a{color:inherit}
 h1,h2,h3{line-height:1.25; margin:0 0 .6rem;}
